@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NOXRATE ELITE | Shadow Operations Terminal</title>
+    <style>
+        :root {
+            --neon-blue: #0abdc6;
+            --neon-purple: #711c91;
+            --dark-space: #0e0b16;
+            --electric-pink: #ea00d9;
+            --matrix-green: #00ff41;
+        }
+        
+        /* Base Styles */
+        body {
+            background: radial-gradient(ellipse at bottom, var(--dark-space) 0%, #000 100%);
+            color: var(--neon-blue);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        /* Matrix Background */
+        #matrix {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.08;
+        }
+        
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            perspective: 1000px;
+        }
+        
+        /* Holographic Logo */
+        .holographic-logo {
+            text-align: center;
+            font-size: 4rem;
+            margin: 2rem 0;
+            background: linear-gradient(90deg, var(--neon-blue), var(--electric-pink));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            position: relative;
+            letter-spacing: 0.5rem;
+            text-shadow: 0 0 10px rgba(10, 189, 198, 0.3);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-purple); }
+            to { text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-purple), 0 0 30px var(--electric-pink); }
+        }
+        
+        /* Cyber Terminal */
+        .cyber-terminal {
+            background: rgba(14, 11, 22, 0.85);
+            border: 1px solid var(--neon-purple);
+            border-radius: 0;
+            box-shadow: 0 0 30px rgba(113, 28, 145, 0.5),
+                        inset 0 0 20px rgba(10, 189, 198, 0.3);
+            padding: 2rem;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: rotateY(5deg) translateY(0); }
+            50% { transform: rotateY(-5deg) translateY(-20px); }
+        }
+        
+        .terminal-header {
+            border-bottom: 1px solid var(--neon-purple);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            color: var(--electric-pink);
+        }
+        
+        /* Command Line Elements */
+        .command-line {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .prompt {
+            color: var(--electric-pink);
+            margin-right: 0.5rem;
+            text-shadow: 0 0 5px rgba(234, 0, 217, 0.5);
+            white-space: nowrap;
+        }
+        
+        .typewriter {
+            border-right: 2px solid var(--neon-blue);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blinkTextCursor 0.7s infinite;
+        }
+        
+        @keyframes blinkTextCursor {
+            from { border-right-color: var(--neon-blue) }
+            to { border-right-color: transparent }
+        }
+        
+        /* System Responses */
+        .system-response {
+            color: #5bc2c2;
+            text-shadow: 0 0 5px rgba(91, 194, 194, 0.5);
+            margin-left: 2rem;
+            position: relative;
+        }
+        
+        .system-response::before {
+            content: ">";
+            position: absolute;
+            left: -1.5rem;
+            color: var(--matrix-green);
+        }
+        
+        /* Manifesto Styles */
+        .manifesto p, .members p {
+            border-left: 1px solid var(--neon-purple);
+            padding-left: 1rem;
+            margin: 0.8rem 0;
+            line-height: 1.6;
+        }
+        
+        .highlight {
+            color: var(--electric-pink);
+            font-weight: bold;
+        }
+        
+        .codename {
+            color: var(--neon-blue);
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(10, 189, 198, 0.7);
+        }
+        
+        /* Cyber Cards */
+        .grid-display {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .cyber-card {
+            background: rgba(14, 11, 22, 0.7);
+            border: 1px solid var(--neon-purple);
+            padding: 1.5rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--neon-blue), var(--electric-pink), var(--neon-purple));
+            background-size: 200% 200%;
+            animation: gradientFlow 3s ease infinite;
+        }
+        
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(113, 28, 145, 0.5);
+        }
+        
+        .cyber-card h3 {
+            color: var(--electric-pink);
+            border-bottom: 1px solid var(--neon-blue);
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Particle Connection Lines */
+        .connection-line {
+            position: absolute;
+            background: rgba(10, 189, 198, 0.3);
+            z-index: -1;
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--dark-space);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-purple);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--electric-pink);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .holographic-logo {
+                font-size: 2.5rem;
+            }
+            
+            .grid-display {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    
+    <div class="container">
+        <div class="holographic-logo">
+            NOXRATE ELITE
+        </div>
+        
+        <div class="cyber-terminal">
+            <div class="terminal-header">
+                <span>root@noxrate-elite:~#</span>
+                <span>access_level: BLACK</span>
+            </div>
+            
+            <div class="command-line">
+                <span class="prompt">[root@noxrate-elite ~]#</span>
+                <span class="typewriter" id="typing-1">init_system --auth-level=black</span>
+            </div>
+            <p class="system-response">Black level authentication initialized. Welcome to the shadows.</p>
+            
+            <div class="command-line">
+                <span class="prompt">[root@noxrate-elite ~]#</span>
+                <span class="typewriter" id="typing-2">verify_identity --token=0xN0XR4T3_3L173</span>
+            </div>
+            <p class="system-response">Biometric verification complete. Access granted: Level 9</p>
+            
+            <div class="command-line">
+                <span class="prompt">[root@noxrate-elite ~]#</span>
+                <span class="typewriter" id="typing-3">display_manifesto</span>
+            </div>
+            <div class="manifesto">
+                <p class="system-response">Biz dijital karanlığın mimarlarıyız.</p>
+                <p class="system-response">Sistemlerin zayıf noktalarını görür, sessizce sızar, iz bırakmadan çıkarız.</p>
+                <p class="system-response">Kuralları değil, sistemleri kırarız.</p>
+                
+                <p class="system-response"><span class="highlight">NOXRATE felsefesi:</span></p>
+                <p class="system-response">1. Hiçbir sistem güvenli değildir</p>
+                <p class="system-response">2. Her koruma aşılabilir</p>
+                <p class="system-response">3. Gerçek güç bilgidedir</p>
+                <p class="system-response">4. Zafer sabırlı olanındır</p>
+                
+                <p class="system-response"><span class="highlight">Operasyon prensiplerimiz:</span></p>
+                <p class="system-response">- Hedef odaklı çalışma</p>
+                <p class="system-response">- Sıfır hata toleransı</p>
+                <p class="system-response">- Çok katmanlı şifreleme</p>
+                <p class="system-response">- İz bırakmayan teknikler</p>
+            </div>
+            
+            <div class="grid-display">
+                <div class="cyber-card">
+                    <h3>Kara Operasyonlar</h3>
+                    <p>Gölgelerde çalışır, iz bırakmadan hedeflerimizi vururuz. Her operasyon özel olarak tasarlanmış araçlarla yürütülür.</p>
+                </div>
+                <div class="cyber-card">
+                    <h3>Quantum Kriptoloji</h3>
+                    <p>Geleneksel şifreleme yöntemlerini aşan, kuantum dirençli özel algoritmalar geliştiriyoruz.</p>
+                </div>
+                <div class="cyber-card">
+                    <h3>Phantom Network</h3>
+                    <p>Dünya çapında dağıtılmış, takip edilemez iletişim ağımızla küresel erişim sağlıyoruz.</p>
+                </div>
+            </div>
+            
+            <div class="command-line">
+                <span class="prompt">[root@noxrate-elite ~]#</span>
+                <span class="typewriter" id="typing-4">show_members --level=elite</span>
+            </div>
+            <div class="members">
+                <p class="system-response"><span class="codename">PHANTOM</span> - Kurucu & Advanced Persistent Threat Uzmanı</p>
+                <p class="system-response"><span class="codename">SPECTRE</span> - Sıfır Gün Açıklığı Avcısı</p>
+                <p class="system-response"><span class="codename">NIGHTMARE</span> - Reverse Engineering Sihirbazı</p>
+                <p class="system-response"><span class="codename">VOID</span> - Dağıtık Sistem Korsanı</p>
+                <p class="system-response"><span class="codename">ENIGMA</span> - Kuantum Kriptoloji Uzmanı</p>
+            </div>
+            
+            <div class="command-line">
+                <span class="prompt">[root@noxrate-elite ~]#</span>
+                <span class="typewriter" id="typing-5">connect_to_nexus --encryption=quantum</span>
+            </div>
+            <p class="system-response">Quantum tunnel established. Connection secured.</p>
+            <p class="system-response">Welcome to the NoxRate Nexus. Your voice is now encrypted.</p>
+            
+            <div class="command-line">
+                <span class="prompt">[root@noxrate-elite ~]#</span>
+                <span class="blinking-cursor">_</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Background Effect
+        const matrixCanvas = document.getElementById('matrix');
+        const matrixCtx = matrixCanvas.getContext('2d');
+        
+        matrixCanvas.width = window.innerWidth;
+        matrixCanvas.height = window.innerHeight;
+        
+        const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
+        const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        const nums = '0123456789';
+        const alphabet = katakana + latin + nums;
+        
+        const fontSize = 14;
+        const columns = matrixCanvas.width / fontSize;
+        
+        const rainDrops = [];
+        for (let x = 0; x < columns; x++) {
+            rainDrops[x] = 1;
+        }
+        
+        const drawMatrix = () => {
+            matrixCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            matrixCtx.fillRect(0, 0, matrixCanvas.width, matrixCanvas.height);
+            
+            matrixCtx.fillStyle = '#00FF41';
+            matrixCtx.font = fontSize + 'px monospace';
+            
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                matrixCtx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                
+                if (rainDrops[i] * fontSize > matrixCanvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        };
+        
+        setInterval(drawMatrix, 30);
+        
+        // Typewriter Effect
+        const typewriterElements = [
+            { id: 'typing-1', text: 'init_system --auth-level=black' },
+            { id: 'typing-2', text: 'verify_identity --token=0xN0XR4T3_3L173' },
+            { id: 'typing-3', text: 'display_manifesto' },
+            { id: 'typing-4', text: 'show_members --level=elite' },
+            { id: 'typing-5', text: 'connect_to_nexus --encryption=quantum' }
+        ];
+        
+        function typeWriter(element, text, speed = 50) {
+            let i = 0;
+            element.textContent = '';
+            element.style.borderRight = '2px solid var(--neon-blue)';
+            
+            function typing() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typing, speed);
+                } else {
+                    element.style.borderRight = 'none';
+                }
+            }
+            
+            typing();
+        }
+        
+        // Initialize typing effects with delays
+        setTimeout(() => typeWriter(document.getElementById('typing-1'), 500);
+        setTimeout(() => typeWriter(document.getElementById('typing-2'), 3000);
+        setTimeout(() => typeWriter(document.getElementById('typing-3'), 6000);
+        setTimeout(() => typeWriter(document.getElementById('typing-4'), 10000);
+        setTimeout(() => typeWriter(document.getElementById('typing-5'), 14000);
+        
+        // Dynamic System Responses
+        const systemMessages = [
+            "Firewall bypassed. Stealth mode activated.",
+            "Tracking countermeasures in place.",
+            "No signatures detected.",
+            "Encryption layers: 7/7 active",
+            "Anonymous routing enabled",
+            "Zero-day vulnerabilities loaded",
+            "Ghost protocol initiated",
+            "Quantum encryption established"
+        ];
+        
+        function randomSystemMessage() {
+            const messages = document.querySelectorAll('.system-response');
+            messages.forEach(msg => {
+                if(Math.random() > 0.95) {
+                    const original = msg.textContent;
+                    msg.textContent = systemMessages[Math.floor(Math.random()*systemMessages.length)];
+                    
+                    setTimeout(() => {
+                        msg.textContent = original;
+                    }, 2000);
+                }
+            });
+        }
+        
+        setInterval(randomSystemMessage, 5000);
+        
+        // Blinking Cursor Effect
+        const cursor = document.querySelector('.blinking-cursor');
+        if (cursor) {
+            setInterval(() => {
+                cursor.style.visibility = (cursor.style.visibility === 'hidden' ? 'visible' : 'hidden');
+            }, 700);
+        }
+        
+        // Connection Lines Animation
+        function createConnectionLines() {
+            const cards = document.querySelectorAll('.cyber-card');
+            const container = document.querySelector('.cyber-terminal');
+            
+            cards.forEach((card, index) => {
+                if (index < cards.length - 1) {
+                    const line = document.createElement('div');
+                    line.className = 'connection-line';
+                    
+                    const startRect = card.getBoundingClientRect();
+                    const endRect = cards[index + 1].getBoundingClientRect();
+                    
+                    const startX = startRect.left + startRect.width / 2;
+                    const startY = startRect.top + startRect.height;
+                    const endX = endRect.left + endRect.width / 2;
+                    const endY = endRect.top;
+                    
+                    const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+                    const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
+                    
+                    line.style.width = `${length}px`;
+                    line.style.height = '1px';
+                    line.style.left = `${startX}px`;
+                    line.style.top = `${startY}px`;
+                    line.style.transform = `rotate(${angle}deg)`;
+                    line.style.transformOrigin = '0 0';
+                    
+                    container.appendChild(line);
+                }
+            });
+        }
+        
+        setTimeout(createConnectionLines, 2000);
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            matrixCanvas.width = window.innerWidth;
+            matrixCanvas.height = window.innerHeight;
+            
+            // Recreate connection lines on resize
+            document.querySelectorAll('.connection-line').forEach(el => el.remove());
+            createConnectionLines();
+        });
+    </script>
+</body>
+</html>
